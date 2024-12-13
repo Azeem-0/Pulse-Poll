@@ -1,14 +1,47 @@
+
 import PollComponent from "@/components/PollComponent";
 import { Poll } from "@/types/Poll";
 import axiosInstance from "@/utils/axiosInstance";
-import axios from "axios";
-import Image from "next/image";
 import Link from "next/link";
 
 
 export default async function Dashboard() {
 
+  // dont forget to modularize everything in a way where all the client components are placed at the bottom of the dom, and even if possible try to change client code into separate components for efficiency.
+
   const polls: [Poll] = await (await axiosInstance.get("/")).data;
+
+  // useEffect(() => {
+
+  //   axiosInstance.get('/')
+  //     .then((response) => {
+  //       dispatch(setPolls(response.data));
+  //     }).catch((err) => {
+  //       alert("Failed to get polls data");
+  //     });
+
+  //   const es = new EventSource('http://localhost:8080/api/socket/create-client');
+
+  //   es.onopen = () => {
+  //     console.log("connected succesfully.");
+  //   }
+
+  //   es.addEventListener("poll_created", (event) => {
+  //     const poll = JSON.parse(event.data);
+  //     dispatch(addPolls(poll));
+
+  //   });
+
+  //   es.addEventListener("poll_updated", (event) => {
+  //     const poll = JSON.parse(event.data);
+  //     dispatch(updatePoll(poll));
+  //   });
+
+  //   return () => {
+  //     es.close();
+  //   };
+  // }, [dispatch]);
+
 
   return (
     <div className="w-full h-full flex flex-col gap-10 justify-center items-center bg-gray-100 p-6">
@@ -22,13 +55,13 @@ export default async function Dashboard() {
         <Link href="/login" className="px-6 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700">
           Click here to login.
         </Link>
+        <Link href="/polls">Click</Link>
       </div>
       <div className="space-y-6">
         {polls.map((poll, index) => (
           <PollComponent key={index} poll={poll} />
         ))}
       </div>
-
     </div>
   );
 

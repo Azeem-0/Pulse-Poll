@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 const findMostFrequentCount = (arr: string[]): number => {
@@ -24,6 +25,8 @@ export default function CreatePolls() {
         newOptions[index] = value;
         setOptions(newOptions);
     };
+
+    const user = "Azeem";
 
     const addOption = () => setOptions([...options, '']);
 
@@ -49,7 +52,7 @@ export default function CreatePolls() {
         const poll = {
             title,
             options,
-            username: "azeem" // need to create a global state and retrive username from that.
+            username: user
         };
 
         try {

@@ -1,15 +1,24 @@
 "use client";
 
-import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
+import { startAuthentication } from "@simplewebauthn/browser";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { useEffect, useState } from "react";
+import { useUserStore } from "@/store";
 
 export default function Login() {
-    const [username, setUsername] = useState('');
     const [message, setMessage] = useState('');
+    const [username, setUsername] = useState("");
+
+    const storeUsername = useUserStore((state) => state.setUsername);
 
     const router = useRouter();
+
+    useEffect(() => {
+        if (username.length !== 0) {
+            router.push("/");
+        }
+    }, []);
 
     const handleLogin = async () => {
         try {
@@ -31,8 +40,11 @@ export default function Login() {
                 },
             );
 
+            storeUsername(username);
+
+            localStorage.setItem("username", username);
+
             setMessage('Login successful!');
-            console.log(authenticationFinishResponse);
 
             router.push('/');
 
@@ -47,13 +59,6 @@ export default function Login() {
                 console.error(error);
             }
         }
-    }
-
-    const checkJwt = async () => {
-        const response = await axios.get("http://localhost:8080/api/r/route/protected", {
-            withCredentials: true
-        },);
-        console.log(response);
     }
 
     return (
@@ -73,12 +78,6 @@ export default function Login() {
                 Login
             </button>
             <p className="text-white text-sm">{message}</p>
-            <button
-                className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition"
-                onClick={checkJwt}
-            >
-                Check protected route access
-            </button>
         </div>
     );
 

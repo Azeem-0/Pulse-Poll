@@ -2,11 +2,23 @@
 
 import { startRegistration } from "@simplewebauthn/browser";
 import axios from "axios";
-import { FormEvent, useState } from "react";
+import { useRouter } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 export default function Register() {
     const [username, setUsername] = useState('');
     const [message, setMessage] = useState('');
+
+    const router = useRouter();
+
+    const user = "Azeem";
+
+    useEffect(() => {
+        if (user.length !== 0) {
+            router.push("/");
+        }
+    }, []);
 
     const handleRegister = async () => {
         try {

@@ -48,15 +48,6 @@ export default async function Dashboard() {
       <h1 className="text-2xl font-bold text-gray-800 mb-6">
         This is our polling website.
       </h1>
-      <div className="space-x-4">
-        <Link href="/register" className="px-6 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700">
-          Click here to register.
-        </Link>
-        <Link href="/login" className="px-6 py-2 bg-green-600 text-white rounded-md shadow hover:bg-green-700">
-          Click here to login.
-        </Link>
-        <Link href="/polls">Click</Link>
-      </div>
       <div className="space-y-6">
         {polls.map((poll, index) => (
           <PollComponent key={index} poll={poll} />

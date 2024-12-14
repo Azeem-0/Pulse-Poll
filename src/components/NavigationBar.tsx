@@ -1,15 +1,22 @@
 'use client';
 
 import { useUserStore } from "@/store";
+import axiosInstance from "@/utils/axiosInstance";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import LoggedInComponent from "./LoggedInComponent";
 
 export default function NavigationBar() {
-    const checkUserSession = useUserStore((state) => state.checkUserSession);
+    const { checkUserSession, username, resetUserSession } = useUserStore((state) => state);
+
 
     useEffect(() => {
         checkUserSession();
     }, [checkUserSession]);
+
+    const router = useRouter();
+
 
     return (
         <nav className="bg-blue-600 shadow-md">
@@ -18,19 +25,25 @@ export default function NavigationBar() {
                     <Link href="/">PollingApp</Link>
                 </div>
                 <div className="flex space-x-6">
-                    <Link href="/">
+                    <Link className="flex justify-center items-center" href="/">
                         <span className="text-white hover:text-gray-200 transition">Home</span>
                     </Link>
-                    <Link href="/polls">
+                    <Link className="flex justify-center items-center" href="/polls">
                         <span className="text-white hover:text-gray-200 transition">Polls</span>
                     </Link>
-                    <Link href="/register">
-                        <span className="text-white hover:text-gray-200 transition">Register</span>
-                    </Link>
-                    <Link href="/login">
-                        <span className="text-white hover:text-gray-200 transition">Login</span>
-                    </Link>
+                    {username ?
+                        <LoggedInComponent /> :
+                        <>
+                            <Link className="flex justify-center items-center" href="/register">
+                                <span className="text-white hover:text-gray-200 transition">Register</span>
+                            </Link>
+                            <Link className="flex justify-center items-center" href="/login">
+                                <span className="text-white hover:text-gray-200 transition">Login</span>
+                            </Link>
+                        </>
+                    }
                 </div>
+
             </div>
         </nav>
     );

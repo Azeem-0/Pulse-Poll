@@ -28,8 +28,6 @@ export default function Login() {
 
             const requestOptions = authenticationStartResponse.data.publicKey;
 
-            console.log(requestOptions);
-
             const attResp = await startAuthentication({ optionsJSON: requestOptions });
 
             const authenticationFinishResponse = await axios.post(
@@ -41,8 +39,6 @@ export default function Login() {
             );
 
             storeUsername(username);
-
-            localStorage.setItem("username", username);
 
             setMessage('Login successful!');
 

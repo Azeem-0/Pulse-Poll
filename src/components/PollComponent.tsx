@@ -1,8 +1,8 @@
 "use client";
+import { useUserStore } from "@/store";
 import { Poll } from "@/types/Poll";
 import axiosInstance from "@/utils/axiosInstance";
-import { use, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 export default function PollComponent({ poll }: { poll: Poll }) {
 
@@ -12,7 +12,7 @@ export default function PollComponent({ poll }: { poll: Poll }) {
 
     const [pollState, setPollState] = useState<Poll>(poll);
 
-    let username = "Azeem";
+    const username = useUserStore((state) => state.username);
 
     useEffect(() => {
 
@@ -22,14 +22,9 @@ export default function PollComponent({ poll }: { poll: Poll }) {
             console.log("connected succesfully.");
         }
 
-        es.onmessage = (event) => {
-            console.log("message received: ", event);
-        }
-
         es.addEventListener("poll_updated", (event) => {
             const poll = JSON.parse(event.data);
-            console.log("HELLO WORLD");
-            console.log(poll);
+            setPollState(poll);
         });
 
         return () => {
@@ -49,8 +44,6 @@ export default function PollComponent({ poll }: { poll: Poll }) {
                 username: username,
                 optionId: selectedOption,
             }
-
-            console.log(voteOption);
 
             await axiosInstance.post(`/polls/${poll.pollId}/vote`, voteOption);
 
@@ -83,10 +76,12 @@ export default function PollComponent({ poll }: { poll: Poll }) {
     }
 
 
+    // console.log(pollState);
+
     return (
         <>
             {pollState ?
-                <div key={pollState.pollId} className="p-6 bg-white shadow-md rounded-lg border border-gray-200">
+                <div key={pollState.pollId} className="p-6 bg-white w-fit shadow-md rounded-lg border border-gray-200">
                     <h2 className="text-2xl font-semibold text-gray-800 mb-2">{pollState.title}</h2>
                     <p className="text-sm text-gray-600 mb-1">
                         Created by: <span className="font-medium">{pollState.username}</span>
@@ -98,7 +93,7 @@ export default function PollComponent({ poll }: { poll: Poll }) {
                         </span>
                     </p>
                     <ul className="list-disc pl-6 text-gray-700">
-                        {pollState.options.map((option) => (
+                        {pollState?.options?.map((option) => (
                             <li key={option.optionId}>
                                 <label>
                                     <input
@@ -124,7 +119,7 @@ export default function PollComponent({ poll }: { poll: Poll }) {
                     )}
 
                     {pollState.isActive && pollState.username === username && (
-                        <div className="flex flex-row justify-between items-center">
+                        <div className="flex flex-row gap-5 justify-between items-center">
                             <button
                                 onClick={resetPoll}
                                 className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"

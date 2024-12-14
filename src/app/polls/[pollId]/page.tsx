@@ -18,7 +18,7 @@ export default async function SinglePoll({ params }: {
 
     const poll = (await axiosInstance.get(`/polls/${pollId}`)).data;
 
-    return <>
+    return <div className="w-full flex justify-center items-center p-5">
         <PollComponent poll={poll} />
-    </>
+    </div>
 };

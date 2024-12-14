@@ -1,24 +1,16 @@
 "use client";
 
+import { useUserStore } from "@/store";
 import { startRegistration } from "@simplewebauthn/browser";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { FormEvent, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 export default function Register() {
     const [username, setUsername] = useState('');
     const [message, setMessage] = useState('');
 
     const router = useRouter();
-
-    const user = "Azeem";
-
-    useEffect(() => {
-        if (user.length !== 0) {
-            router.push("/");
-        }
-    }, []);
 
     const handleRegister = async () => {
         try {
@@ -28,11 +20,8 @@ export default function Register() {
 
             const credentials = await registrationStartResponse.data.publicKey;
 
-            console.log(credentials);
-
             let attResponse = await startRegistration({ optionsJSON: credentials });
 
-            console.log(attResponse);
 
             const registrationFinishResponse = await axios.post(
                 `http://localhost:8080/api/auth/register/finish/${username}`,
@@ -44,6 +33,7 @@ export default function Register() {
 
             if (registrationFinishResponse.status === 200) {
                 console.log("Successfully registered");
+                router.push("/login");
             }
         }
         catch (err) {

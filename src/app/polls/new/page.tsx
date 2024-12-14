@@ -1,8 +1,11 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { CreatePoll } from '@/services/pollServices';
+import { useNotificationStore } from '@/store/notificationStore';
+import { useUserStore } from '@/store/userStore';
+import { useRouter } from 'next/navigation';
 
 
 const findMostFrequentCount = (arr: string[]): number => {
@@ -26,7 +29,17 @@ export default function CreatePolls() {
         setOptions(newOptions);
     };
 
-    const user = "Azeem";
+    const router = useRouter();
+
+    const { username, resetUserSession } = useUserStore((state) => state);
+
+    const { notify, notifySuccess, notifyError, notifyWarning } = useNotificationStore((state) => state);
+
+    useEffect(() => {
+        if (!username) {
+            router.push("/login");
+        }
+    }, []);
 
     const addOption = () => setOptions([...options, '']);
 
@@ -39,11 +52,11 @@ export default function CreatePolls() {
         let redundantPoll = findMostFrequentCount(options);
 
         if (!title || options.some((opt) => !opt.trim())) {
-            alert('Please fill in the title and all options.');
+            notifyWarning('Please fill in the title and all options.');
             return;
         }
         else if (options.length < 2 || redundantPoll >= 2) {
-            alert("Please satisfy all option validation conditions.");
+            notifyWarning("Please satisfy all option validation conditions.");
             return;
         }
 
@@ -52,21 +65,26 @@ export default function CreatePolls() {
         const poll = {
             title,
             options,
-            username: user
+            username: username
         };
 
         try {
-            await axios.post('http://localhost:8080/api/polls/', poll, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                withCredentials: true
-            });
-            alert('Poll created successfully!');
+            await CreatePoll(poll);
             setTitle('');
-            setOptions(['']);
+            setOptions([''])
+            notifySuccess("Successfully created poll.");
+
         } catch (error) {
-            alert('Failed to create poll.');
+            if (axios.isAxiosError(error) && error.response) {
+                if (error.response.status === 401) {
+                    resetUserSession();
+                    console.error("Unauthorized request:", error.response.data);
+                    notify("User should log in to create poll");
+                    return;
+                }
+            }
+            notifyError("Error : " + error);
+            console.error(error);
         } finally {
             setIsLoading(false);
         }

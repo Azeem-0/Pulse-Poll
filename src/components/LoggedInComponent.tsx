@@ -1,6 +1,6 @@
 "use client";
 
-import { useUserStore } from "@/store";
+import { useUserStore } from "@/store/userStore";
 import axiosInstance from "@/utils/axiosInstance";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

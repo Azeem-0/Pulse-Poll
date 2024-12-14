@@ -1,6 +1,6 @@
 'use client';
 
-import { useUserStore } from "@/store";
+import { useUserStore } from "@/store/userStore";
 import axiosInstance from "@/utils/axiosInstance";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,12 +10,17 @@ import LoggedInComponent from "./LoggedInComponent";
 export default function NavigationBar() {
     const { checkUserSession, username, resetUserSession } = useUserStore((state) => state);
 
+    const router = useRouter();
 
     useEffect(() => {
         checkUserSession();
+
+        if (!username) {
+            router.push("/");
+        }
+
     }, [checkUserSession]);
 
-    const router = useRouter();
 
 
     return (

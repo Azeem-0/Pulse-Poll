@@ -1,3 +1,4 @@
+import axiosInstance from '@/utils/axiosInstance';
 import { create } from 'zustand';
 
 type UserState = {
@@ -17,7 +18,7 @@ export const useUserStore = create<UserState>((set) => ({
         localStorage.removeItem("username");
         set({ username: null });
     },
-    checkUserSession: () => {
+    checkUserSession: async () => {
         const username = localStorage.getItem("username");
         if (username) {
             set({ username });

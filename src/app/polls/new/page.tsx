@@ -5,8 +5,6 @@ import axios from 'axios';
 import { CreatePoll } from '@/services/pollServices';
 import { useNotificationStore } from '@/store/notificationStore';
 import { useUserStore } from '@/store/userStore';
-import { useRouter } from 'next/navigation';
-
 
 const findMostFrequentCount = (arr: string[]): number => {
     if (arr.length === 0) return 0;
@@ -29,17 +27,10 @@ export default function CreatePolls() {
         setOptions(newOptions);
     };
 
-    const router = useRouter();
 
     const { username, resetUserSession } = useUserStore((state) => state);
 
     const { notify, notifySuccess, notifyError, notifyWarning } = useNotificationStore((state) => state);
-
-    useEffect(() => {
-        if (!username) {
-            router.push("/login");
-        }
-    }, []);
 
     const addOption = () => setOptions([...options, '']);
 
@@ -91,55 +82,57 @@ export default function CreatePolls() {
     };
 
     return (
-        <div className="w-full max-w-md p-6 bg-white shadow rounded">
-            <h2 className="text-2xl font-bold mb-4">Create a New Poll</h2>
+        <div className='w-full flex justify-center'>
+            <div className="w-full max-w-md m-5 p-6 bg-white shadow rounded">
+                <h2 className="text-2xl font-bold mb-4">Create a New Poll</h2>
 
-            <div className="mb-4">
-                <label className="block font-semibold mb-1">Poll Title:</label>
-                <input
-                    type="text"
-                    className="w-full p-2 border rounded"
-                    placeholder="Enter poll title"
-                    value={title}
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-            </div>
+                <div className="mb-4">
+                    <label className="block font-semibold mb-1">Poll Title:</label>
+                    <input
+                        type="text"
+                        className="w-full p-2 border rounded"
+                        placeholder="Enter poll title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                </div>
 
-            <div className="mb-4">
-                <label className="block font-semibold mb-1">Poll Options:</label>
-                {options.map((option, index) => (
-                    <div key={index} className="flex items-center space-x-2 mb-2">
-                        <input
-                            type="text"
-                            className="flex-1 p-2 border rounded"
-                            placeholder={`Option ${index + 1}`}
-                            value={option}
-                            onChange={(e) => handleOptionChange(index, e.target.value)}
-                        />
-                        <button
-                            className="px-3 py-1 bg-red-600 text-white rounded"
-                            onClick={() => removeOption(index)}
-                            disabled={options.length <= 1}
-                        >
-                            Remove
-                        </button>
-                    </div>
-                ))}
+                <div className="mb-4">
+                    <label className="block font-semibold mb-1">Poll Options:</label>
+                    {options.map((option, index) => (
+                        <div key={index} className="flex items-center space-x-2 mb-2">
+                            <input
+                                type="text"
+                                className="flex-1 p-2 border rounded"
+                                placeholder={`Option ${index + 1}`}
+                                value={option}
+                                onChange={(e) => handleOptionChange(index, e.target.value)}
+                            />
+                            <button
+                                className="px-3 py-1 bg-red-600 text-white rounded"
+                                onClick={() => removeOption(index)}
+                                disabled={options.length <= 1}
+                            >
+                                Remove
+                            </button>
+                        </div>
+                    ))}
+                    <button
+                        className="px-4 py-2 bg-blue-600 text-white rounded shadow mt-2"
+                        onClick={addOption}
+                    >
+                        Add Option
+                    </button>
+                </div>
+
                 <button
-                    className="px-4 py-2 bg-blue-600 text-white rounded shadow mt-2"
-                    onClick={addOption}
+                    className="w-full py-2 bg-green-600 text-white rounded shadow"
+                    onClick={handleSubmit}
+                    disabled={isLoading}
                 >
-                    Add Option
+                    {isLoading ? 'Creating...' : 'Create Poll'}
                 </button>
             </div>
-
-            <button
-                className="w-full py-2 bg-green-600 text-white rounded shadow"
-                onClick={handleSubmit}
-                disabled={isLoading}
-            >
-                {isLoading ? 'Creating...' : 'Create Poll'}
-            </button>
         </div>
     );
 }

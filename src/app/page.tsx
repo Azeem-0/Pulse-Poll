@@ -19,7 +19,7 @@ export default async function Dashboard() {
       <div className="space-y-6">
         {polls && polls.length > 0 ? (
           polls.map((poll, index) => (
-            <div className="bg-gray-200 p-3 rounded-lg flex flex-col shadow-md" key={index}>
+            <div className="w-fit bg-gray-200 p-3 m-5 rounded-lg flex flex-col items-center justify-center gap-5 shadow-md" key={index}>
               <PollComponent
                 key={index}
                 isActive={poll.isActive}

@@ -3,6 +3,7 @@ import { create } from 'zustand';
 
 type UserState = {
     username: string | null;
+    isLoading: boolean,
     setUsername: (username: string) => void;
     checkUserSession: () => void;
     resetUserSession: () => void;
@@ -10,21 +11,23 @@ type UserState = {
 
 export const useUserStore = create<UserState>((set) => ({
     username: null,
+    isLoading: true,
     setUsername: (username) => {
-        localStorage.setItem("username", username);
-        set({ username });
+        if (typeof window !== "undefined") {
+            localStorage.setItem("username", username);
+        }
+        set({ username, isLoading: false });
     },
     resetUserSession: () => {
-        localStorage.removeItem("username");
-        set({ username: null });
+        if (typeof window !== "undefined") {
+            localStorage.removeItem("username");
+        }
+        set({ username: null, isLoading: false });
     },
-    checkUserSession: async () => {
-        const username = localStorage.getItem("username");
-        if (username) {
-            set({ username });
+    checkUserSession: () => {
+        if (typeof window !== "undefined") {
+            const username = localStorage.getItem("username");
+            set({ username: username || null, isLoading: false });
         }
-        else {
-            set({ username: null });
-        }
-    }
-}));
+    },
+}))

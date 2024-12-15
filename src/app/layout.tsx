@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { ToastContainer } from 'react-toastify';
-import NavigationBar from "@/components/NavigationBarComponent";
+import NavigationBar from "@/components/navigation/NavigationBarComponent";
 import "./globals.css";
 import 'react-toastify/dist/ReactToastify.css';
 

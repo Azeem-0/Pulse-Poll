@@ -8,20 +8,17 @@ import { useEffect } from "react";
 import LoggedInComponent from "./LoggedInComponent";
 
 export default function NavigationBar() {
-    const { checkUserSession, username, resetUserSession } = useUserStore((state) => state);
+    const { checkUserSession, username, isLoading } = useUserStore((state) => state);
 
     const router = useRouter();
 
     useEffect(() => {
         checkUserSession();
-
-        if (!username) {
+        console.log(username);
+        if (!isLoading && !username) {
             router.push("/");
         }
-
-    }, [checkUserSession]);
-
-
+    }, [checkUserSession, username, isLoading]);
 
     return (
         <nav className="bg-blue-600 shadow-md">
@@ -32,9 +29,6 @@ export default function NavigationBar() {
                 <div className="flex space-x-6">
                     <Link className="flex justify-center items-center" href="/">
                         <span className="text-white hover:text-gray-200 transition">Home</span>
-                    </Link>
-                    <Link className="flex justify-center items-center" href="/polls">
-                        <span className="text-white hover:text-gray-200 transition">Polls</span>
                     </Link>
                     {username ?
                         <LoggedInComponent /> :

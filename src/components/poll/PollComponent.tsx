@@ -10,17 +10,12 @@ export default function PollComponent({ title, username, isActive }: {
     isActive: boolean,
 }) {
     return (
-        <div className="p-6 bg-white w-fit shadow-md rounded-lg border border-gray-200">
+        <div className="p-2 bg-white w-fit shadow-md rounded-lg border border-gray-200">
             <h2 className="text-2xl font-semibold text-gray-800 mb-2">{title}</h2>
             <p className="text-sm text-gray-600 mb-1">
                 Created by: <span className="font-medium">{username}</span>
             </p>
-            <p className="text-sm text-gray-600 mb-3">
-                Status:{" "}
-                <span className={`font-medium ${isActive ? "text-green-600" : "text-red-600"}`}>
-                    {isActive ? "Active" : "Closed"}
-                </span>
-            </p>
+
         </div>
     );
 }

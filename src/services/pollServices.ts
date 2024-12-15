@@ -11,7 +11,7 @@ export const GetAllPolls = async () => {
     }
 }
 
-const GetPollById = async (pollId: string) => {
+export const GetPollById = async (pollId: string) => {
     try {
         const response = await (await axiosInstance.get(`/polls/${pollId}`)).data;
 
@@ -65,6 +65,15 @@ export const VoteToPoll = async (username: string | null, selectedOption: string
 
         return response;
 
+    } catch (error) {
+        throw error;
+    }
+}
+
+export const GetResults = async (pollId: string | null) => {
+    try {
+        const response = await (await axiosInstance.get(`/polls/${pollId}/results`)).data;
+        return response;
     } catch (error) {
         throw error;
     }

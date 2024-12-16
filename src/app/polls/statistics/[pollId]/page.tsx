@@ -54,10 +54,8 @@ export default function PollStatistics() {
     };
 
     if (!pollData) {
-        return <p>Loading...</p>;
+        return <p className="w-full h-[80vh] flex justify-center items-center">Loading...</p>;
     }
-
-    // const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
     const COLORS = pollData ? generateColors(pollData.options.length) : [];
 

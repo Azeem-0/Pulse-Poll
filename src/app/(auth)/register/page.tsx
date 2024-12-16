@@ -1,5 +1,6 @@
 "use client";
 
+import { useLogin } from "@/hooks/useAuth";
 import { Registration } from "@/services/authService";
 import { useNotificationStore } from "@/store/notificationStore";
 import { startRegistration } from "@simplewebauthn/browser";
@@ -9,26 +10,28 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function Register() {
-    const [username, setUsername] = useState('');
+    // const [username, setUsername] = useState('');
 
-    const router = useRouter();
+    // const router = useRouter();
 
-    const { notifyError, notifySuccess } = useNotificationStore((state) => state);
+    // const { notifyError, notifySuccess } = useNotificationStore((state) => state);
 
-    const handleRegister = async () => {
-        try {
-            const registrationFinishResponse = await Registration(username);
+    // const handleRegister = async () => {
+    //     try {
+    //         const registrationFinishResponse = await Registration(username);
 
-            if (registrationFinishResponse.status === 200) {
-                notifySuccess("Successfully registered.")
-                router.push("/login");
-            }
-        }
-        catch (err) {
-            notifyError("Error : " + err);
-            console.log(err);
-        }
-    }
+    //         if (registrationFinishResponse.status === 200) {
+    //             notifySuccess("Successfully registered.")
+    //             router.push("/login");
+    //         }
+    //     }
+    //     catch (err) {
+    //         notifyError("Error : " + err);
+    //         console.log(err);
+    //     }
+    // }
+
+    const { username, setUsername, handleRegister, isLoading } = useLogin();
 
     return (
         <div className="w-full flex justify-center items-center">
@@ -41,12 +44,12 @@ export default function Register() {
                     onChange={(e) => setUsername(e.target.value)}
                     className="w-full p-2 border rounded mb-4 focus:outline-none focus:ring-2 focus:ring-purple-400"
                 />
-                <button
+                {isLoading ? <p className="w-full text-center">Loading...</p> : <button
                     className="w-full py-2 bg-green-600 text-white rounded shadow hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 transition"
                     onClick={handleRegister}
                 >
                     Register
-                </button>
+                </button>}
                 <div className="mt-4 text-center text-sm text-gray-600">
                     <span>Already registered? </span>
                     <Link

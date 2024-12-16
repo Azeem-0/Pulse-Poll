@@ -31,3 +31,11 @@ export const Authentication = async (username: string) => {
         throw error;
     }
 }
+
+export const LogOut = async () => {
+    try {
+        await (await axiosInstance.post("/auth/logout")).data;
+    } catch (error) {
+        throw error;
+    }
+}

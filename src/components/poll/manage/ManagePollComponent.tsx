@@ -4,10 +4,10 @@
 import { ClosePoll, ResetPoll } from "@/services/pollServices";
 import { useNotificationStore } from "@/store/notificationStore";
 import { useUserStore } from "@/store/userStore";
-import axiosInstance from "@/utils/axiosInstance";
+import { Poll } from "@/types/Poll";
 
 export default function ManagePollComponent({ pollId }: {
-    pollId: string,
+    pollId: string
 }) {
 
     const username = useUserStore((state) => state.username);
@@ -34,18 +34,21 @@ export default function ManagePollComponent({ pollId }: {
         }
     }
 
-    return <div className="flex flex-row gap-5 justify-between w-full items-center">
-        <button
-            onClick={resetPoll}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"
-        >
-            Reset Poll
-        </button>
-        <button
-            onClick={closePoll}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"
-        >
-            Close Poll
-        </button>
-    </div>
+    return (
+        <div className="flex flex-row gap-5 justify-between w-full items-center">
+            <button
+                onClick={resetPoll}
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"
+            >
+                Reset Poll
+            </button>
+            <button
+                onClick={closePoll}
+                className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"
+            >
+                Close Poll
+            </button>
+        </div>
+    );
+
 };

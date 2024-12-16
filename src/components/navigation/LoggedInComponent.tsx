@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 
 export default function LoggedInComponent() {
 
-    const { resetUserSession } = useUserStore((state) => state);
+    const { resetUserSession, username } = useUserStore((state) => state);
 
     const router = useRouter();
 
@@ -27,7 +27,10 @@ export default function LoggedInComponent() {
         }
     }
     return <>
-        <Link className="flex justify-center items-center" href="/polls/manage">
+        <Link className="flex justify-center items-center" href="/">
+            <span className="text-white hover:text-gray-200 transition">Home</span>
+        </Link>
+        <Link className="flex justify-center items-center" href={"/polls/manage"}>
             <span className="text-white hover:text-gray-200 transition">Manage polls</span>
         </Link>
         <Link className="flex justify-center items-center" href="/polls/new">

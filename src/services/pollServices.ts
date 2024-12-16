@@ -7,7 +7,7 @@ export const GetAllPolls = async () => {
         return response;
     } catch (error) {
         console.error("Error retreiving polls", error);
-        return null;
+        return [];
     }
 }
 

@@ -1,92 +1,17 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { CreatePoll } from '@/services/pollServices';
-import { useNotificationStore } from '@/store/notificationStore';
-import { useUserStore } from '@/store/userStore';
-
-const findMostFrequentCount = (arr: string[]): number => {
-    if (arr.length === 0) return 0;
-
-    const frequencyMap = new Map<string, number>();
-
-    arr.forEach(str => frequencyMap.set(str, (frequencyMap.get(str) || 0) + 1));
-
-    return Math.max(...frequencyMap.values());
-};
+import { usePoll } from '@/hooks/usePoll';
+import { cardStyles, containerStyles } from '@/styles/styles';
 
 export default function CreatePolls() {
-    const [title, setTitle] = useState('');
-    const [options, setOptions] = useState<string[]>(['']);
-    const [isLoading, setIsLoading] = useState(false);
-
-    const handleOptionChange = (index: number, value: string) => {
-        const newOptions = [...options];
-        newOptions[index] = value;
-        setOptions(newOptions);
-    };
-
-
-    const { username, resetUserSession } = useUserStore((state) => state);
-
-    const { notify, notifySuccess, notifyError, notifyWarning } = useNotificationStore((state) => state);
-
-    const addOption = () => setOptions([...options, '']);
-
-    const removeOption = (index: number) => {
-        setOptions(options.filter((_, i) => i !== index));
-    };
-
-    const handleSubmit = async () => {
-
-        let redundantPoll = findMostFrequentCount(options);
-
-        if (!title || options.some((opt) => !opt.trim())) {
-            notifyWarning('Please fill in the title and all options.');
-            return;
-        }
-        else if (options.length < 2 || redundantPoll >= 2) {
-            notifyWarning("Please satisfy all option validation conditions.");
-            return;
-        }
-
-        setIsLoading(true);
-
-        const poll = {
-            title,
-            options,
-            username: username
-        };
-
-        try {
-            await CreatePoll(poll);
-            setTitle('');
-            setOptions([''])
-            notifySuccess("Successfully created poll.");
-
-        } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                if (error.response.status === 401) {
-                    resetUserSession();
-                    console.error("Unauthorized request:", error.response.data);
-                    notify("User should log in to create poll");
-                    return;
-                }
-            }
-            notifyError("Error : " + error);
-            console.error(error);
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const { title, setTitle, options, handleOptionChange, removeOption, addOption, createNewPoll, isLoading } = usePoll();
 
     return (
-        <div className='w-full flex justify-center'>
-            <div className="w-full max-w-md m-5 p-6 bg-white shadow rounded">
+        <div className={containerStyles}>
+            <div className={`${cardStyles} `} >
                 <h2 className="text-2xl font-bold mb-4">Create a New Poll</h2>
 
-                <div className="mb-4">
+                <div className="mb-4 w-full">
                     <label className="block font-semibold mb-1">Poll Title:</label>
                     <input
                         type="text"
@@ -127,12 +52,12 @@ export default function CreatePolls() {
 
                 <button
                     className="w-full py-2 bg-green-600 text-white rounded shadow"
-                    onClick={handleSubmit}
+                    onClick={createNewPoll}
                     disabled={isLoading}
                 >
                     {isLoading ? 'Creating...' : 'Create Poll'}
                 </button>
             </div>
-        </div>
+        </div >
     );
 }

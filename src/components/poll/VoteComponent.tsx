@@ -6,6 +6,8 @@ import { OptionItem, Poll } from "@/types/Poll"
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import PollStatusComponent from "./PollStatusComponent";
+import { handleApiError } from "@/utils/handleApiErrors";
 
 export default function VoteComponent({ isActive, options, pollUsername, pollId }: {
     isActive: boolean,
@@ -21,7 +23,7 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
 
     const [voteSubmitted, setVoteSubmitted] = useState(false);
 
-    const { username, isLoading } = useUserStore((state) => state);
+    const { username, isLoading, resetUserSession } = useUserStore((state) => state);
     const router = useRouter();
     const { notifySuccess, notifyError, notifyWarning } = useNotificationStore((state) => state);
 
@@ -68,23 +70,16 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
 
             setVoteSubmitted(true);
         } catch (error) {
-            console.error("Error submitting vote:", error);
-
-            notifyError("Failed to submit your vote. Please try again.");
+            handleApiError(error, "Failed to submit your vote :(", notifyError, notifyWarning, resetUserSession);
         }
     };
 
-    return <div className="flex flex-col ">
-        <ul className="list-disc pl-6 text-gray-700">
-            <p className="text-sm text-gray-600 mb-3">
-                Status:{" "}
-                <span className={`font-medium ${activeState ? "text-green-600" : "text-red-600"}`}>
-                    {activeState ? "Active" : "Closed"}
-                </span>
-            </p>
+    return <div className="flex flex-col space-y-4">
+        <PollStatusComponent activeState={activeState} />
+        <ul className="list-none pl-6 text-gray-700 w-full flex flex-col gap-2.5">
             {optionsState?.map((option) => (
-                <li key={option.optionId}>
-                    <label>
+                <li key={option.optionId} className="w-full">
+                    <label className="w-full flex items-center">
                         <input
                             type="radio"
                             name="pollOption"
@@ -93,7 +88,7 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
                             onChange={() => setSelectedOption(option.optionId)}
                             className="mr-2"
                         />
-                        {option.text} - <span className="font-medium">{option.votes} votes</span>
+                        {option.text} - <span className="ml-1 font-medium">{option.votes} votes</span>
                     </label>
                 </li>
             ))}
@@ -112,22 +107,5 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
         >
             View Statistics.
         </Link>
-
-        {/* {isActive && pollUsername === username && (
-            <div className="flex flex-row gap-5 justify-between items-center">
-                <button
-                    // onClick={resetPoll}
-                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"
-                >
-                    Reset Poll
-                </button>
-                <button
-                    // onClick={closePoll}
-                    className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"
-                >
-                    Close Poll
-                </button>
-            </div>
-        )} */}
     </div>
 };

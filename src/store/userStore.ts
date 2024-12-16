@@ -4,7 +4,7 @@ import { create } from 'zustand';
 type UserState = {
     username: string | null;
     isLoading: boolean,
-    setUsername: (username: string) => void;
+    setUserSession: (username: string) => void;
     checkUserSession: () => void;
     resetUserSession: () => void;
 };
@@ -12,7 +12,7 @@ type UserState = {
 export const useUserStore = create<UserState>((set) => ({
     username: null,
     isLoading: true,
-    setUsername: (username) => {
+    setUserSession: (username) => {
         if (typeof window !== "undefined") {
             localStorage.setItem("username", username);
         }

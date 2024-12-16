@@ -74,21 +74,21 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
         }
     };
 
-    return <div className="flex flex-col space-y-4">
+    return <div className="w-full flex flex-col space-y-4">
         <PollStatusComponent activeState={activeState} />
         <ul className="list-none pl-6 text-gray-700 w-full flex flex-col gap-2.5">
             {optionsState?.map((option) => (
                 <li key={option.optionId} className="w-full">
-                    <label className="w-full flex items-center">
+                    <label className="w-full text-xs flex items-center">
                         <input
                             type="radio"
                             name="pollOption"
                             value={option.optionId}
                             disabled={!activeState || voteSubmitted}
                             onChange={() => setSelectedOption(option.optionId)}
-                            className="mr-2"
+                            className="mr-2 text-xs"
                         />
-                        {option.text} - <span className="ml-1 font-medium">{option.votes} votes</span>
+                        {option.text} - <span className="ml-1 text-sm font-medium">{option.votes} votes</span>
                     </label>
                 </li>
             ))}
@@ -96,14 +96,15 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
         {activeState && !voteSubmitted && (
             <button
                 onClick={handleVote}
-                className="mt-4 px-4 py-2 text-center w-full bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"
+                className="w-full py-[5px] text-sm rounded-xl bg-transparent border-black 
+                border-[1px] hover:-translate-y-[2px] text-black shadow hover:bg-[#b2ff36] focus:outline-none focus:ring-2 focus:ring-[#d0ff85] transition duration-75"
             >
                 Submit Vote
             </button>
         )}
         <Link
             href={`/polls/statistics/${pollId}`}
-            className="mt-4 px-4 py-2 text-center w-full bg-blue-600 text-white rounded-md shadow hover:bg-blue-700"
+            className="w-full py-[5px]  hover:-translate-y-[2px] text-sm rounded-xl bg-[#B4FE3A] text-black shadow text-center hover:bg-[#b2ff36] focus:outline-none focus:ring-2 focus:ring-[#d0ff85] transition duration-75"
         >
             View Statistics.
         </Link>

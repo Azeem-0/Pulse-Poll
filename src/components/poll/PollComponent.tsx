@@ -1,13 +1,14 @@
-export default function PollComponent({ title, username }: {
+export default function PollComponent({ title, username, from }: {
 
     title: string,
     username: string,
+    from: string,
 }) {
     return (
-        <div className="p-4 w-full bg-white shadow-md rounded-lg border border-gray-200">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-2">{title}</h2>
-            <p className="text-sm text-gray-600 mb-1">
-                Created by: <span className="font-medium">{username}</span>
+        <div className="flex flex-col px-[10px] gap-[10px]">
+            {from === "home" ? <h2 className="font-sans text-xl font-semibold text-gray-800 flex">{title.substring(0, 26)} {title.length > 26 ? "..." : ""}</h2> : <h2 className="font-sans text-xl font-semibold text-gray-800 flex">{title}</h2>}
+            <p className="font-roboto text-xs text-gray-600">
+                Created by: <span className="font-roboto text-black font-medium">{username}</span>
             </p>
         </div>
     );

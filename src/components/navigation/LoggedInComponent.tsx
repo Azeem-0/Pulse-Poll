@@ -28,16 +28,16 @@ export default function LoggedInComponent() {
     }
     return <>
         <Link className="flex justify-center items-center" href="/">
-            <span className="text-white hover:text-gray-200 transition">Home</span>
+            <span className="text-black opacity-90 hover:opacity-100 transition-all hover:-translate-y-[3px]">Home</span>
         </Link>
         <Link className="flex justify-center items-center" href={"/polls/manage"}>
-            <span className="text-white hover:text-gray-200 transition">Manage polls</span>
+            <span className="text-black opacity-90 hover:opacity-100 transition-all hover:-translate-y-[3px]">Manage polls</span>
         </Link>
         <Link className="flex justify-center items-center" href="/polls/new">
-            <span className="text-white hover:text-gray-200 transition">Create poll</span>
+            <span className="text-black opacity-90 hover:opacity-100 transition-all hover:-translate-y-[3px]">Create poll</span>
         </Link>
-        <Link href="#" onClick={handleLogOut} className="bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition" >
-            <span className="text-white hover:text-gray-200 transition">Log out</span>
+        <Link href="#" onClick={handleLogOut} className="bg-[#B4FE3A] py-2 px-6 rounded-lg hover:-translate-y-1  hover:text-black focus:outline-none focus:ring-2 focus:ring-black transition" >
+            <span className="text-black opacity-90 hover:opacity-100 transition-all hover:-translate-y-[3px]">Log out</span>
         </Link>
     </>
 };

@@ -8,7 +8,7 @@ export default function CreatePolls() {
 
     return (
         <div className={containerStyles}>
-            <div className={`${cardStyles} `} >
+            <div className={cardStyles} >
                 <h2 className="text-2xl font-bold mb-4">Create a New Poll</h2>
 
                 <div className="mb-4 w-full">

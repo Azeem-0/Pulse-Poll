@@ -14,25 +14,25 @@ export default function NavigationBar() {
         checkUserSession();
         console.log(username);
         if (!isLoading && !username) {
-            router.push("/");
+            router.push("/login");
         }
     }, [checkUserSession, username, isLoading]);
 
     return (
-        <nav className="bg-gray-600 shadow-md">
-            <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-                <div className="text-white text-2xl font-semibold">
-                    <Link href="/">PingPoll</Link>
+        <nav className="bg-white m-4 shadow-md rounded-2xl">
+            <div className="max-w-7xl p-[15px] rounded-md mx-auto flex justify-between items-center">
+                <div className="text-black text-2xl font-semibold">
+                    <Link href="/">PulsePoll</Link>
                 </div>
-                <div className="flex space-x-6">
+                <div className="flex space-x-6 items-center">
                     {username ?
                         <LoggedInComponent /> :
                         <>
-                            <Link className="text-center text-white hover:text-gray-200 transition" href="/register">
+                            <Link className="text-center hover:-translate-y-[3px] text-black transition-all hover:text-black-200" href="/register">
                                 Register
                             </Link>
-                            <Link className="text-center text-white hover:text-gray-200 transition" href="/login">
-                                Login
+                            <Link href="/login" className="bg-[#B4FE3A] transition-all py-2 px-6 rounded-lg hover:-translate-y-[3px]  hover:text-black focus:outline-none focus:ring-2 focus:ring-black" >
+                                <span className="text-black hover:text-black transition">Log in</span>
                             </Link>
                         </>
                     }

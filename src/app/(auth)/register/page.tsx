@@ -7,7 +7,7 @@ export default function Register() {
     const { username, setUsername, handleRegister, isLoading } = useLogin();
 
     return (
-        <div className="w-full flex justify-center items-center">
+        <div className="w-full h-[80dvh] flex justify-center items-center">
             <div className="w-fit max-w-md p-6 rounded-xl transition-all bg-white shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-1px_rgba(0,0,0,0.06)] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)] h-[20rem] flex flex-col items-start justify-center gap-[15px]">
                 <div className="flex flex-col gap-[5px]">
                     <h1 className="font-sans text-lg font-semibold text-gray-800">Register Here.</h1>
@@ -27,7 +27,7 @@ export default function Register() {
                     Register
                 </button>}
                 <div className="text-center text-sm text-gray-500">
-                    <span>Already registered? </span>
+                    <span>Already have an account? </span>
                     <Link
                         className="text-black hover:underline"
                         href="/login"

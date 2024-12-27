@@ -22,7 +22,7 @@ export default function CreatePolls() {
 
                 <div className="mb-4">
                     <label className="block font-roboto font-medium text-sm tracking-wider text-gray-700 mb-1">Poll Options:</label>
-                    {options.map((option, index) => (
+                    {options?.map((option, index) => (
                         <div key={index} className="flex items-center space-x-2 mb-2">
                             <input
                                 type="text"

@@ -22,7 +22,7 @@ export default function PollStatistics() {
             fetchPollData();
         }
 
-        const es = new EventSource('http://localhost:8080/api/socket/create-client');
+        const es = new EventSource(`${process.env.NEXT_PUBLIC_API_BASE_URL}/socket/create-client`);
 
         es.onopen = () => {
             console.log("connected succesfully.");
@@ -59,7 +59,7 @@ export default function PollStatistics() {
 
     const COLORS = pollData ? generateColors(pollData.options.length) : [];
 
-    const chartData = pollData.options.map((option) => ({
+    const chartData = pollData?.options?.map((option) => ({
         name: option.text,
         value: option.votes,
     }));
@@ -97,7 +97,7 @@ export default function PollStatistics() {
                                     fill="#8884d8"
                                     label
                                 >
-                                    {chartData.map((entry, index) => (
+                                    {chartData?.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
@@ -110,7 +110,7 @@ export default function PollStatistics() {
                 <div className="bg-gray-50 p-6 rounded-xl shadow-inner">
                     <h2 className="text-xl  font-medium font-sans text-gray-800 mb-4">Options Breakdown</h2>
                     <ul className="list-disc ml-6 space-y-3">
-                        {pollData.options.map((option, index) => (
+                        {pollData?.options?.map((option, index) => (
                             <li key={index} className="text-gray-700 text-sm">
                                 <span className="font-medium text-black">{option.text}</span>:{" "}
                                 {option.votes} votes

@@ -13,7 +13,7 @@ export default async function SinglePoll({ params }: {
 }) {
     const { pollId } = await params;
 
-    const poll: Poll = await GetPollById(pollId);
+    const poll = await GetPollById(pollId);
 
     return <div className={containerStyles} >
         {poll ?

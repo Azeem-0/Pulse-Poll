@@ -32,7 +32,7 @@ export const usePoll = () => {
     };
 
     const removeOption = (index: number) => {
-        setOptions(options.filter((_, i) => i !== index));
+        setOptions(options?.filter((_, i) => i !== index));
     };
 
     const createNewPoll = async () => {

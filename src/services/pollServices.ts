@@ -1,8 +1,9 @@
+import { Poll, PollResults } from "@/types/Poll";
 import axiosInstance from "@/utils/axiosInstance"
 
 export const GetAllPolls = async () => {
     try {
-        const response = await (await axiosInstance.get("/")).data;
+        const response: Poll[] = await (await axiosInstance.get("/")).data;
 
         return response;
     } catch (error) {
@@ -13,7 +14,7 @@ export const GetAllPolls = async () => {
 
 export const GetPollById = async (pollId: string) => {
     try {
-        const response = await (await axiosInstance.get(`/polls/${pollId}`)).data;
+        const response: Poll = await (await axiosInstance.get(`/polls/${pollId}`)).data;
 
         return response;
     } catch (error) {
@@ -72,7 +73,7 @@ export const VoteToPoll = async (username: string | null, selectedOption: string
 
 export const GetResults = async (pollId: string | null) => {
     try {
-        const response = await (await axiosInstance.get(`/polls/${pollId}/results`)).data;
+        const response: PollResults = await (await axiosInstance.get(`/polls/${pollId}/results`)).data;
         return response;
     } catch (error) {
         throw error;

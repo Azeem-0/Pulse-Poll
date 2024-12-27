@@ -1,7 +1,6 @@
 "use client";
 import { useUserStore } from "@/store/userStore";
 import { Poll } from "@/types/Poll";
-import PollComponent from "../PollDetailsComponent";
 import ManagePollComponent from "./ManagePollComponent";
 import { cardStyles, containerStyles } from "@/styles/styles";
 

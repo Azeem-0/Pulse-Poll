@@ -1,8 +1,6 @@
 import VoteComponent from "@/components/poll/VoteComponent";
 import { GetPollById } from "@/services/pollServices";
-import { cardStyles, containerStyles } from "@/styles/styles";
-import { Poll } from "@/types/Poll";
-import axiosInstance from "@/utils/axiosInstance"
+import { containerStyles } from "@/styles/styles";
 
 
 export default async function SinglePoll({ params }: {

@@ -21,7 +21,9 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
 
     const [activeState, setActiveState] = useState<boolean>(isActive);
 
-    const [voteSubmitted, setVoteSubmitted] = useState(false);
+    const [voteSubmitted, setVoteSubmitted] = useState<boolean>(false);
+
+    const [spinner, setSpinner] = useState<boolean>(false);
 
     const { username, isLoading, resetUserSession } = useUserStore((state) => state);
     const router = useRouter();
@@ -62,6 +64,7 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
             notifyWarning("Please select an option to vote!");
             return;
         }
+        setSpinner(true);
 
         try {
             await VoteToPoll(username, selectedOption, pollId);
@@ -71,6 +74,8 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
             setVoteSubmitted(true);
         } catch (error) {
             handleApiError(error, "Failed to submit your vote :(", notifyError, notifyWarning, resetUserSession);
+        } finally {
+            setSpinner(false);
         }
     };
 
@@ -84,7 +89,7 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
                             type="radio"
                             name="pollOption"
                             value={option.optionId}
-                            disabled={!activeState || voteSubmitted}
+                            disabled={!activeState}
                             onChange={() => setSelectedOption(option.optionId)}
                             className="mr-2 text-xs"
                         />
@@ -93,13 +98,14 @@ export default function VoteComponent({ isActive, options, pollUsername, pollId 
                 </li>
             ))}
         </ul>
-        {activeState && !voteSubmitted && (
+        {activeState && (
             <button
                 onClick={handleVote}
+                disabled={spinner}
                 className="w-full py-[5px] text-sm rounded-xl bg-transparent border-black 
                 border-[1px] hover:-translate-y-[2px] text-black shadow hover:bg-[#b2ff36] focus:outline-none focus:ring-2 focus:ring-[#d0ff85] transition duration-75"
             >
-                Submit Vote
+                {spinner ? "Submitting..." : "Submit Vote"}
             </button>
         )}
         <Link

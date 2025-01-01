@@ -13,9 +13,6 @@ export default function NavigationBar() {
 
     useEffect(() => {
         checkUserSession();
-        console.log(username);
-        console.log("ENV ", process.env.NEXT_PUBLIC_API_URL);
-        console.log("AXIOS ", axiosInstance.defaults.baseURL);
         if (!isLoading && !username) {
             router.push("/login");
         }

@@ -13,7 +13,7 @@ The frontend is built using **Next.js** and styled with **Tailwind CSS**. It pro
 
 ### Configuration
 - **Environment Variables:**
-  - `NEXT_PUBLIC_API_BASE_URL`: Backend API base URL.
+  - `NEXT_PUBLIC_API_URL`: Backend API base URL.
 ---
 
 ### Local Setup
@@ -32,7 +32,7 @@ The frontend is built using **Next.js** and styled with **Tailwind CSS**. It pro
     ```
 3. **Set up environment variables:**
     ```bash
-    NEXT_PUBLIC_API_BASE_URL=<your-backend-api-url>
+    NEXT_PUBLIC_API_URL=<your-backend-api-url>
     ```
 4. **Run the server:**
   ```bash

@@ -22,7 +22,7 @@ export default function PollStatistics() {
             fetchPollData();
         }
 
-        const es = new EventSource(`${process.env.NEXT_PUBLIC_API_BASE_URL}/socket/create-client`);
+        const es = new EventSource(`${process.env.NEXT_PUBLIC_API_URL}/socket/create-client`);
 
         es.onopen = () => {
             console.log("connected succesfully.");

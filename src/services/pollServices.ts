@@ -3,11 +3,10 @@ import axiosInstance from "@/utils/axiosInstance"
 
 export const GetAllPolls = async () => {
     try {
-        const response: Poll[] = await (await axiosInstance.get("/")).data;
-
-        return response;
+        const response = await axiosInstance.get("/");
+        return response.data;
     } catch (error) {
-        console.error("Error retreiving polls", error);
+        console.error("Full error:", error);
         return [];
     }
 }

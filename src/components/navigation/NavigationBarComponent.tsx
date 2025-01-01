@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import LoggedInComponent from "./LoggedInComponent";
+import axiosInstance from "@/utils/axiosInstance";
 export default function NavigationBar() {
     const { checkUserSession, username, isLoading } = useUserStore((state) => state);
 
@@ -13,6 +14,8 @@ export default function NavigationBar() {
     useEffect(() => {
         checkUserSession();
         console.log(username);
+        console.log("ENV ", process.env.NEXT_PUBLIC_API_URL);
+        console.log("AXIOS ", axiosInstance.defaults.baseURL);
         if (!isLoading && !username) {
             router.push("/login");
         }

@@ -2,6 +2,7 @@ import VoteComponent from "@/components/poll/VoteComponent";
 import { GetPollById } from "@/services/pollServices";
 import { containerStyles } from "@/styles/styles";
 
+export const revalidate = 60;
 
 export default async function SinglePoll({ params }: {
     params: Promise<{

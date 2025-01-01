@@ -6,9 +6,14 @@ import { containerStyles } from "@/styles/styles";
 import { Poll } from "@/types/Poll";
 import Link from "next/link";
 
+export const revalidate = 60;
+
+
 export default async function Dashboard() {
 
   const polls: Poll[] = await GetAllPolls();
+
+
 
   return (
     <div className={containerStyles}>

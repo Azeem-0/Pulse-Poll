@@ -10,7 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: List directory contents for debugging
+    - name: Checkout Code Base
+      uses: actions/checkout@v4
+
+    - name: Log files 
       run: ls -al
       
     - name: Login to Docker Hub

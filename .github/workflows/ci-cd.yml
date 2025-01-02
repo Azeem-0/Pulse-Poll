@@ -7,9 +7,10 @@ on:
     types: ["closed"]
 
 jobs:
-  build-and-trigger-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
+    
     - name: Checkout Code Base
       uses: actions/checkout@v4
 
@@ -37,3 +38,32 @@ jobs:
         build-args: |
             NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
             NEXT_PUBLIC_BUILD_API_URL=${{ secrets.NEXT_PUBLIC_BUILD_API_URL }}
+  deploy: 
+    needs: build
+    runs-on: ubuntu-latest 
+    steps: 
+      - name: Checkout Code Base
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1  
+
+      - name: Fill in the new image URI in the ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: pulse-poll-task-definition.json
+          container-name: pulse-poll
+          image: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_REPOSITORY_NAME }}:latest
+      
+      - name: Deploy updated task definition to ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: DevCluster
+          cluster: pulse-poll-app-service
+          wait-for-service-stability: true

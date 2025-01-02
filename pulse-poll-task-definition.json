@@ -1,0 +1,48 @@
+{
+    "containerDefinitions": [
+        {
+            "name": "pulse-poll",
+            "image": "azeemshaik025/client:latest",
+            "cpu": 0,
+            "portMappings": [
+                {
+                    "name": "pulse-poll-3000-tcp",
+                    "containerPort": 3000,
+                    "hostPort": 3000,
+                    "protocol": "tcp",
+                    "appProtocol": "http"
+                }
+            ],
+            "essential": true,
+            "environment": [],
+            "environmentFiles": [],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "ulimits": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/",
+                    "mode": "non-blocking",
+                    "awslogs-create-group": "true",
+                    "max-buffer-size": "25m",
+                    "awslogs-region": "ap-south-1",
+                    "awslogs-stream-prefix": "ecs"
+                },
+                "secretOptions": []
+            },
+            "systemControls": []
+        }
+    ],
+    "family": "pulse-poll-task-definition",
+    "taskRoleArn": "arn:aws:iam::825765401880:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::825765401880:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "cpu": "1024",
+    "memory": "3072",
+    "runtimePlatform": {
+        "cpuArchitecture": "X86_64",
+        "operatingSystemFamily": "LINUX"
+    },
+    "volumes": []
+}

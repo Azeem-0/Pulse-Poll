@@ -18,8 +18,8 @@ export default async function Dashboard() {
     <div className={containerStyles}>
       <div className="flex flex-wrap gap-10 flex-col items-center justify-around">
         <div className="flex flex-col items-center gap-4">
-          <h1 className="font-sans text-3xl font-semibold text-gray-800">Welcome to PulsePoll</h1>
-          <p className="text-xs font-roboto w-[25rem] text-center">Browse through the latest polls, cast your vote, and stay updated with real-time results. Join the conversation today</p>
+          <h1 className="font-sans lg:text-3xl md:text-2xl text-xl font-semibold text-gray-800">Welcome to PulsePoll</h1>
+          <p className="text-xs lg:w-[25rem] md:w-[20rem] font-roboto w-[18rem] text-center">Browse through the latest polls, cast your vote, and stay updated with real-time results. Join the conversation today</p>
         </div>
         <div className="flex mt-10 flex-wrap items-center justify-evenly px-5 gap-x-10 gap-y-10">
           {Array.isArray(polls) && polls.length > 0 ? (

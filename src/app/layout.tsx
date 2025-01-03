@@ -29,7 +29,7 @@ export default function RootLayout({
       </head>
       <body className="antialiased bg-[#EEEEEC] font-roboto font-normal">
         <NavigationBar />
-        <ToastContainer />
+        <ToastContainer className="!w-[10rem]" />
         {children}
       </body>
     </html>

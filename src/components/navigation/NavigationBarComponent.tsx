@@ -21,18 +21,18 @@ export default function NavigationBar() {
     return (
         <nav className="bg-white m-4 shadow-md rounded-2xl">
             <div className="max-w-7xl p-[15px] rounded-md mx-auto flex justify-between items-center">
-                <div className="text-black text-2xl font-semibold">
-                    <Link href="/">PulsePoll</Link>
+                <div className="text-black font-semibold">
+                    <Link className="lg:text-2xl md:text-xl text-sm" href="/">PulsePoll</Link>
                 </div>
-                <div className="flex space-x-6 items-center">
+                <div className="flex space-x-3 lg:space-x-6 md:space-x-6  items-center">
                     {username ?
                         <LoggedInComponent /> :
                         <>
-                            <Link className="text-center hover:-translate-y-[3px] text-black transition-all hover:text-black-200" href="/register">
+                            <Link className="text-center lg:text-base md:text-base text-xs hover:-translate-y-[3px] text-black transition-all hover:text-black-200" href="/register">
                                 Register
                             </Link>
                             <Link href="/login" className="bg-[#B4FE3A] transition-all py-2 px-6 rounded-lg hover:-translate-y-[3px]  hover:text-black focus:outline-none focus:ring-2 focus:ring-black" >
-                                <span className="text-black hover:text-black transition">Log in</span>
+                                <span className="text-black lg:text-base md:text-base text-xs hover:text-black transition">Log in</span>
                             </Link>
                         </>
                     }

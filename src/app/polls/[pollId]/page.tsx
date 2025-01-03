@@ -3,7 +3,7 @@ import { GetAllPolls, GetPollById } from "@/services/pollServices";
 import { containerStyles } from "@/styles/styles";
 import { Poll } from "@/types/Poll";
 
-export const revalidate = 60;
+export const revalidate = 10;
 
 export async function generateStaticParams() {
     const polls: Poll[] = await GetAllPolls();

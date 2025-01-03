@@ -4,9 +4,8 @@ import ViewPollComponent from "@/components/poll/ViewPollComponent";
 import { GetAllPolls } from "@/services/pollServices";
 import { containerStyles } from "@/styles/styles";
 import { Poll } from "@/types/Poll";
-import Link from "next/link";
 
-export const revalidate = 60;
+export const revalidate = 10;
 
 
 export default async function Dashboard() {

@@ -1,5 +1,5 @@
-import axiosInstance from '@/utils/axiosInstance';
 import { create } from 'zustand';
+import { persist, createJSONStorage } from "zustand/middleware";
 
 type UserState = {
     username: string | null;
@@ -9,25 +9,25 @@ type UserState = {
     resetUserSession: () => void;
 };
 
-export const useUserStore = create<UserState>((set) => ({
-    username: null,
-    isLoading: true,
-    setUserSession: (username) => {
-        if (typeof window !== "undefined") {
-            localStorage.setItem("username", username);
+export const useUserStore = create(
+    persist<UserState>(
+        (set) => ({
+            username: null,
+            isLoading: true,
+            setUserSession: (username) => {
+                set({ username, isLoading: false });
+            },
+            resetUserSession: () => {
+                set({ username: null, isLoading: false });
+            },
+            checkUserSession: () => {
+                set({ isLoading: false });
+            },
+        }),
+        {
+            name: 'user-storage',
+            storage: createJSONStorage(() => sessionStorage),
         }
-        set({ username, isLoading: false });
-    },
-    resetUserSession: () => {
-        if (typeof window !== "undefined") {
-            localStorage.removeItem("username");
-        }
-        set({ username: null, isLoading: false });
-    },
-    checkUserSession: () => {
-        if (typeof window !== "undefined") {
-            const username = localStorage.getItem("username");
-            set({ username: username || null, isLoading: false });
-        }
-    },
-}))
+    )
+
+)

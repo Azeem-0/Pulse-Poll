@@ -3,18 +3,6 @@ import { GetAllPolls, GetPollById } from "@/services/pollServices";
 import { containerStyles } from "@/styles/styles";
 import { Poll } from "@/types/Poll";
 
-export const revalidate = 10;
-
-export async function generateStaticParams() {
-    const polls: Poll[] = await GetAllPolls();
-
-    return polls.map((poll) => {
-        const pollId = poll.pollId;
-        return {
-            pollId
-        }
-    })
-}
 
 export default async function SinglePoll({ params }: {
     params: Promise<{

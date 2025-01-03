@@ -2,20 +2,6 @@ import { Poll } from "@/types/Poll";
 import { GetAllPolls, GetPollById } from "@/services/pollServices";
 import StatisticsComponent from "@/components/poll/statistics/StatisticsComponent";
 
-
-export const revalidate = 10;
-
-export async function generateStaticParams() {
-    const polls: Poll[] = await GetAllPolls();
-
-    return polls.map((poll) => {
-        const pollId = poll.pollId;
-        return {
-            pollId
-        }
-    })
-}
-
 export default async function PollStatistics({ params }: {
     params: Promise<{
         pollId: string,
